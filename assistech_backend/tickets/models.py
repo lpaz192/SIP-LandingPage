@@ -25,7 +25,6 @@ class InfoTicket(models.Model):
     categoria           = models.CharField(max_length=100, blank=True, null=True)
     estado              = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='ABIERTO')
     prioridad           = models.CharField(max_length=10, choices=PRIORIDAD_CHOICES)
-    impacto             = models.CharField(max_length=10, choices=IMPACTO_CHOICES, blank=True, null=True)
     fecha_creacion      = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     fecha_resolucion    = models.DateTimeField(blank=True, null=True)
