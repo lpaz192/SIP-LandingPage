@@ -15,12 +15,31 @@ def register_view(request):
             user.first_name = form.cleaned_data['first_name']
             user.last_name  = form.cleaned_data['last_name']
             user.save()
-            Cliente.objects.create(
-                user=user,
-                username=user.username
-            )
+            
+            tipo = form.cleaned_data.get('tipo_usuario')
+            empresa = form.cleaned_data.get('empresa', '')
+
+            if tipo == 'SOPORTE':
+                Soporte.objects.create(
+                    user=user, 
+                    username=user.username, 
+                    empresa=empresa
+                )
+            elif tipo == 'JEFE':
+                JefeSoporte.objects.create(
+                    user=user, 
+                    username=user.username, 
+                    empresa=empresa
+                )
+            else:
+                Cliente.objects.create(
+                    user=user, 
+                    username=user.username
+                )
+                
             login(request, user)
             return redirect('dashboard')
+            
     return render(request, 'accounts/register.html', {'form': form})
 
 def login_view(request):
@@ -29,8 +48,8 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email    = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            email    = form.cleaned_data['Email']
+            password = form.cleaned_data['Contraseña']
             try:
                 username = User.objects.get(email=email).username
                 user     = authenticate(request, username=username, password=password)
