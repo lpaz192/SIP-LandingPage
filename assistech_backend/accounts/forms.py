@@ -6,10 +6,19 @@ class RegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=50, label='Nombre')
     last_name  = forms.CharField(max_length=50, label='Apellido')
     email      = forms.EmailField(required=True)
+    
+    TIPOS_USUARIO = [
+        ('CLIENTE', 'Cliente / Usuario Normal'),
+        ('SOPORTE', 'Soporte Técnico'),
+        ('JEFE', 'Jefe de Soporte'),
+    ]
+    tipo_usuario = forms.ChoiceField(choices=TIPOS_USUARIO, label='Tipo de Cuenta')
+    
+    empresa = forms.CharField(max_length=100, label='Empresa', required=False)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name','username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name','username', 'email', 'tipo_usuario', 'empresa']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -19,4 +28,4 @@ class RegisterForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     email    = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
