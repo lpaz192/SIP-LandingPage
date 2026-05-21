@@ -1,15 +1,51 @@
-<!-- Pagina de prueba -->
-<!DOCTYPE html>
-<html><head><title>Login</title></head>
-<body>
-  <h2>Iniciar sesión</h2>
-  {% if error %}
-    <p style="color:red">{{ error }}</p>
-  {% endif %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
-  </form>
-  <p>¿No tenés cuenta? <a href="{% url 'register' %}">Registrate</a></p>
-</body></html>
+{% extends "accounts/base.html" %}
+{% load static %} 
+
+{% block title %}Iniciar sesión - Assistech{% endblock %}
+
+{% block navbar %}
+<nav class="border-b border-assist-dark px-6 py-4 w-full bg-assist-black">
+    <div class="max-w-7xl mx-auto flex items-center">
+        
+        <div class="flex items-center gap-3">
+            <img src="{% static 'accounts/logo.jpeg' %}" alt="Logo Assistech" class="h-8 w-8 rounded-md bg-assist-coral">
+            <span class="text-xl font-bold tracking-tight">Assistech</span>
+        </div>
+
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="w-full flex items-center justify-center min-h-[calc(100vh-80px)] relative overflow-hidden px-4">
+    
+    <div class="p-10 bg-assist-dark shadow-assist-glow rounded-3xl w-full max-w-md relative z-10 border border-[#222222]">
+        
+        <h2 class="text-4xl font-bold text-center mb-10 tracking-tight">Iniciar sesión</h2>
+        
+        {% if error %}
+            <div class="mb-6 p-4 bg-red-950 border border-red-800 text-red-200 rounded-xl text-sm font-medium">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="w-full py-3.5 text-assist-black bg-assist-coral font-bold rounded-2xl hover:bg-opacity-90 transition mt-4 tracking-wide text-base">
+                Entrar
+            </button>
+        </form>
+        
+        <p class="text-center mt-8 text-sm text-assist-gray">
+            ¿No tenés cuenta? 
+            <a href="{% url 'register' %}" class="text-assist-white font-medium underline hover:text-assist-coral transition">
+                Registrate
+            </a>
+        </p>
+
+    </div>
+</div>
+{% endblock %}
